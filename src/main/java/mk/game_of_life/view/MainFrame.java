@@ -2,8 +2,6 @@ package mk.game_of_life.view;
 
 import lombok.Getter;
 import lombok.Setter;
-import mk.game_of_life.view.GamePanel;
-import mk.game_of_life.view.MainMenu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,24 +10,28 @@ import java.awt.*;
 @Setter
 public class MainFrame extends JFrame {
     private static MainFrame instance = null;
-    private final int WIDTH = 1280;
-    private final int HEIGHT = 720;
+    private int WIDTH = 1280;
+    private int HEIGHT = 720;
     private MainMenu menu;
     private GamePanel gamePanel;
 
     private MainFrame() {}
 
     private void initialize() {
-        setTitle("Sorting Algorithms Visualizer");
+        setTitle("Game of life");
+
+        menu = new MainMenu();
+        gamePanel = new GamePanel();
+
+        WIDTH = (int) (gamePanel.calculateSize().getWidth() + menu.getWidth());
+        HEIGHT = (int) (gamePanel.calculateSize().getHeight() + menu.getHeight());
+
         getContentPane().setBackground(Color.DARK_GRAY);
         getContentPane().setForeground(Color.WHITE);
         setMinimumSize(new Dimension(WIDTH, HEIGHT));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         getContentPane().setLayout(new BorderLayout());
-
-        menu = new MainMenu();
-        gamePanel = new GamePanel();
 
         getContentPane().add(menu, BorderLayout.NORTH);
         getContentPane().add(gamePanel, BorderLayout.CENTER);
