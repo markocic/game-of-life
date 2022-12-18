@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,6 +31,12 @@ public class MainMenu extends JPanel {
         add(stopGameButton);
 
         // ms delay on change event
+        msDelay.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                MainFrame.getInstance().getGamePanel().setMillisecondsDelay((Integer) msDelay.getValue());
+            }
+        });
 
         startGameButton.addActionListener(new ActionListener() {
             @Override
@@ -36,11 +44,20 @@ public class MainMenu extends JPanel {
                 SwingWorker<Void, Void> swingWorker = new SwingWorker<Void, Void>() {
                     @Override
                     protected Void doInBackground() {
+                        MainFrame.getInstance().getGamePanel().startGame();
                         return null;
                     }
                 };
 
                 swingWorker.execute();
+            }
+        });
+
+        stopGameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainFrame.getInstance().getGamePanel().setGameRunning(false);
+                System.out.println("stopped");
             }
         });
 

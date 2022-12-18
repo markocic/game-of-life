@@ -29,4 +29,8 @@ public class Cell {
 
         g2.fill(shape);
     }
+
+    public void toggleAlive() {
+        isAlive = !isAlive;
+    }
 }
