@@ -90,33 +90,55 @@ public class GamePanel extends JPanel {
         isGameRunning = true;
 
         while(isGameRunning) {
+            System.out.println("here");
 
-            for (int i = 0; i < ROWS; i++) {
-                for (int j = 0; j < COLUMNS; j++) {
-                    Cell cell = cells.get(i).get(j);
-                    if (cell.isAlive() && isUnderOrOverpopulated(i, j)) {
-                        cell.toggleAlive();
-                    }
-                    else if (!cell.isAlive() && isReproducted(i, j)) {
-                        cell.toggleAlive();
-                    }
-                }
-            }
+            updateCells();
 
             showUpdate();
         }
     }
 
-    private boolean isReproducted(int i, int j) {
-        // cell has exactly 3 live neighbours -> true
-        // else -> false
-        return false;
+    private void updateCells() {
+        for (int i = 0; i < ROWS; i++) {
+            for (int j = 0; j < COLUMNS; j++) {
+                Cell cell = cells.get(i).get(j);
+                if (cell.isAlive() && isUnderOrOverpopulated(i, j)) {
+                    cell.toggleAlive();
+                }
+                else if (!cell.isAlive() && isReproducted(i, j)) {
+                    cell.toggleAlive();
+                }
+            }
+        }
     }
 
-    private boolean isUnderOrOverpopulated(int i, int j) {
+    private boolean isReproducted(int x, int y) {
+        // cell has exactly 3 live neighbours -> true
+        // else -> false
+        int count = getAliveCount(x, y);
+        return count == 3;
+    }
+
+    private boolean isUnderOrOverpopulated(int x, int y) {
         // cell has 2 or 3 live neighbours -> false
-        // else true
-        return false;
+        // else -> true
+        int count = getAliveCount(x, y);
+        return !(count == 2 || count == 3);
+    }
+
+    private int getAliveCount(int x, int y) {
+        int count = 0;
+
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                if (x + i >= COLUMNS || x + i < 0) continue;
+                else if (y + j >= ROWS || y + i < 0) continue;
+
+                if (cells.get(x + i).get(y + j).isAlive()) count++;
+            }
+        }
+
+        return count;
     }
 
     public void mousePressed(int x, int y) {
