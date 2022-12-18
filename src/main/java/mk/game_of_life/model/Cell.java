@@ -24,8 +24,8 @@ public class Cell {
     }
 
     public void draw(Graphics2D g2) {
-        if (isAlive) g2.setColor(Color.WHITE);
-        else g2.setColor(Color.BLACK);
+        if (isAlive) g2.setColor(Color.BLACK);
+        else g2.setColor(Color.WHITE);
 
         g2.fill(shape);
     }

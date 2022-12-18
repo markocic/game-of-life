@@ -90,8 +90,33 @@ public class GamePanel extends JPanel {
         isGameRunning = true;
 
         while(isGameRunning) {
-            System.out.println("running");
+
+            for (int i = 0; i < ROWS; i++) {
+                for (int j = 0; j < COLUMNS; j++) {
+                    Cell cell = cells.get(i).get(j);
+                    if (cell.isAlive() && isUnderOrOverpopulated(i, j)) {
+                        cell.toggleAlive();
+                    }
+                    else if (!cell.isAlive() && isReproducted(i, j)) {
+                        cell.toggleAlive();
+                    }
+                }
+            }
+
+            showUpdate();
         }
+    }
+
+    private boolean isReproducted(int i, int j) {
+        // cell has exactly 3 live neighbours -> true
+        // else -> false
+        return false;
+    }
+
+    private boolean isUnderOrOverpopulated(int i, int j) {
+        // cell has 2 or 3 live neighbours -> false
+        // else true
+        return false;
     }
 
     public void mousePressed(int x, int y) {
