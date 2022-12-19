@@ -57,7 +57,6 @@ public class MainMenu extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 MainFrame.getInstance().getGamePanel().setGameRunning(false);
-                System.out.println("stopped");
             }
         });
 

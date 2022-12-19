@@ -165,7 +165,6 @@ public class GamePanel extends JPanel {
             for (Cell cell : row) {
                 if (cell.getShape().contains(new Point(x, y))) {
                     cell.toggleAlive();
-                    System.out.println(getAliveCount(i, j));
                     repaint();
                     return;
                 }
