@@ -52,7 +52,7 @@ public class GamePanel extends JPanel {
             ArrayList<Cell> temp = new ArrayList<>();
             for (int j = 0; j < ROWS; j++) {
                 temp.add(new Cell(new Point((CELL_WIDTH + CELL_PADDING) * i, (CELL_WIDTH + CELL_PADDING) * j),
-                                  new Dimension(CELL_WIDTH, CELL_HEIGHT), true));
+                                  new Dimension(CELL_WIDTH, CELL_HEIGHT), false));
             }
 
             cells.add(temp);
@@ -99,20 +99,21 @@ public class GamePanel extends JPanel {
     }
 
     private void updateCells() {
-        for (int i = 0; i < ROWS; i++) {
-            for (int j = 0; j < COLUMNS; j++) {
+        System.out.println("Here");
+        for (int i = 0; i < COLUMNS; i++) {
+            for (int j = 0; j < ROWS; j++) {
                 Cell cell = cells.get(i).get(j);
                 if (cell.isAlive() && isUnderOrOverpopulated(i, j)) {
                     cell.toggleAlive();
                 }
-                else if (!cell.isAlive() && isReproducted(i, j)) {
+                else if (!cell.isAlive() && isReproduced(i, j)) {
                     cell.toggleAlive();
                 }
             }
         }
     }
 
-    private boolean isReproducted(int x, int y) {
+    private boolean isReproduced(int x, int y) {
         // cell has exactly 3 live neighbours -> true
         // else -> false
         int count = getAliveCount(x, y);
@@ -131,8 +132,9 @@ public class GamePanel extends JPanel {
 
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
-                if (x + i >= COLUMNS || x + i < 0) continue;
-                else if (y + j >= ROWS || y + i < 0) continue;
+                if (x + i >= COLUMNS || (x + i) < 0) continue;
+                if ((y + j) >= ROWS || (y + j) < 0) continue;
+                if (i == 0 && j == 0) continue;
 
                 if (cells.get(x + i).get(y + j).isAlive()) count++;
             }
@@ -142,14 +144,19 @@ public class GamePanel extends JPanel {
     }
 
     public void mousePressed(int x, int y) {
+        int i = 0;
         for (ArrayList<Cell> row : cells) {
+            int j = 0;
             for (Cell cell : row) {
                 if (cell.getShape().contains(new Point(x, y))) {
                     cell.toggleAlive();
+                    System.out.println(getAliveCount(i, j));
                     repaint();
                     return;
                 }
+                j++;
             }
+            i++;
         }
     }
 }
