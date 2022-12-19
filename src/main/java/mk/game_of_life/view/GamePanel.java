@@ -90,27 +90,42 @@ public class GamePanel extends JPanel {
         isGameRunning = true;
 
         while(isGameRunning) {
-            System.out.println("here");
 
-            updateCells();
+            ArrayList<ArrayList<Cell>> nextGeneration = getNextGeneration();
 
+            setCells(nextGeneration);
             showUpdate();
         }
     }
 
-    private void updateCells() {
-        System.out.println("Here");
+    private ArrayList<ArrayList<Cell>> getNextGeneration() {
+        ArrayList<ArrayList<Cell>> nextGeneration = copyCells();
         for (int i = 0; i < COLUMNS; i++) {
             for (int j = 0; j < ROWS; j++) {
                 Cell cell = cells.get(i).get(j);
                 if (cell.isAlive() && isUnderOrOverpopulated(i, j)) {
-                    cell.toggleAlive();
+                    nextGeneration.get(i).get(j).toggleAlive();
                 }
                 else if (!cell.isAlive() && isReproduced(i, j)) {
-                    cell.toggleAlive();
+                    nextGeneration.get(i).get(j).toggleAlive();
                 }
             }
         }
+
+        return nextGeneration;
+    }
+
+    private ArrayList<ArrayList<Cell>> copyCells() {
+        ArrayList<ArrayList<Cell>> result = new ArrayList<>();
+        for (ArrayList<Cell> row : cells) {
+            ArrayList<Cell> temp = new ArrayList<>();
+            for (Cell cell : row) {
+                temp.add(new Cell(cell.getPoint(), cell.getDimension(), cell.isAlive()));
+            }
+            result.add(temp);
+        }
+
+        return result;
     }
 
     private boolean isReproduced(int x, int y) {
