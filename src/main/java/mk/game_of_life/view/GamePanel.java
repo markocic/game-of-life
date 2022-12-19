@@ -30,7 +30,9 @@ public class GamePanel extends JPanel {
 
     public GamePanel() {
         setBackground(new Color(51, 51, 51));
-        this.addMouseListener(new MouseController());
+        MouseController mouseController = new MouseController(this);
+        this.addMouseListener(mouseController);
+        this.addMouseMotionListener(mouseController);
         initializeArray();
     }
 
@@ -158,19 +160,4 @@ public class GamePanel extends JPanel {
         return count;
     }
 
-    public void mousePressed(int x, int y) {
-        int i = 0;
-        for (ArrayList<Cell> row : cells) {
-            int j = 0;
-            for (Cell cell : row) {
-                if (cell.getShape().contains(new Point(x, y))) {
-                    cell.toggleAlive();
-                    repaint();
-                    return;
-                }
-                j++;
-            }
-            i++;
-        }
-    }
 }
