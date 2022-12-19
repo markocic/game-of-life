@@ -20,11 +20,11 @@ public class GamePanel extends JPanel {
     private final int CELL_WIDTH = 20;
     private final int CELL_HEIGHT = 20;
     private final int CELL_PADDING = 2;
-    private final int ROWS = 30;
+    private final int ROWS = 25;
     private final int COLUMNS = 60;
 
     private int millisecondsDelay = 10;
-    private ArrayList<ArrayList<Cell>> cells = new ArrayList<>();
+    private ArrayList<ArrayList<Cell>> cells;
 
     private boolean isGameRunning = false;
 
@@ -50,6 +50,7 @@ public class GamePanel extends JPanel {
     }
 
     public void initializeArray() {
+        cells = new ArrayList<>();
         for (int i = 0; i < COLUMNS; i++) {
             ArrayList<Cell> temp = new ArrayList<>();
             for (int j = 0; j < ROWS; j++) {

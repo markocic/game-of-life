@@ -17,6 +17,7 @@ public class MainMenu extends JPanel {
     private JSpinner msDelay;
     private JButton startGameButton;
     private JButton stopGameButton;
+    private JButton clearButton;
     public MainMenu() {
         setBackground(Color.DARK_GRAY);
         FlowLayout flowLayout = new FlowLayout();
@@ -25,10 +26,12 @@ public class MainMenu extends JPanel {
         msDelay = new JSpinner(new SpinnerNumberModel(10, 0, 10000, 1));
         startGameButton = new JButton("Start");
         stopGameButton = new JButton("Stop");
+        clearButton = new JButton("Clear");
 
         add(msDelay);
         add(startGameButton);
         add(stopGameButton);
+        add(clearButton);
 
         // ms delay on change event
         msDelay.addChangeListener(new ChangeListener() {
@@ -57,6 +60,14 @@ public class MainMenu extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 MainFrame.getInstance().getGamePanel().setGameRunning(false);
+            }
+        });
+
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainFrame.getInstance().getGamePanel().initializeArray();
+                MainFrame.getInstance().getGamePanel().repaint();
             }
         });
 

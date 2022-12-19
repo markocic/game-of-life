@@ -21,7 +21,6 @@ public class MouseController extends MouseAdapter implements MouseMotionListener
 
     @Override
     public void mousePressed(MouseEvent e) {
-//        MainFrame.getInstance().getGamePanel().mousePressed(e.getX(), e.getY());
         Point cellPoint = getCellLocation(e.getX(), e.getY());
 
         Cell cell = gamePanel.getCells().get((int) cellPoint.getX()).get((int) cellPoint.getY());
@@ -55,6 +54,13 @@ public class MouseController extends MouseAdapter implements MouseMotionListener
     public Point getCellLocation(int x, int y) {
         int i = x / (gamePanel.getCELL_WIDTH()  + gamePanel.getCELL_PADDING());
         int j = y / (gamePanel.getCELL_HEIGHT() + gamePanel.getCELL_PADDING());
+
+        // checks to prevent IndexOutOfBounds error
+        if (x < 0) i = 0;
+        if (y < 0) j = 0;
+
+        if (i >= gamePanel.getCOLUMNS()) i = gamePanel.getCOLUMNS() - 1;
+        if (j >= gamePanel.getROWS()) j = gamePanel.getROWS() - 1;
 
         return new Point(i, j);
     }

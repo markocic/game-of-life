@@ -10,8 +10,6 @@ import java.awt.*;
 @Setter
 public class MainFrame extends JFrame {
     private static MainFrame instance = null;
-    private int WIDTH = 1280;
-    private int HEIGHT = 720;
     private MainMenu menu;
     private GamePanel gamePanel;
 
@@ -23,20 +21,21 @@ public class MainFrame extends JFrame {
         menu = new MainMenu();
         gamePanel = new GamePanel();
 
-        WIDTH = (int) (gamePanel.calculateSize().getWidth() + menu.getWidth());
-        HEIGHT = (int) (gamePanel.calculateSize().getHeight() + menu.getHeight());
-
-        getContentPane().setBackground(Color.DARK_GRAY);
-        getContentPane().setForeground(Color.WHITE);
-        setMinimumSize(new Dimension(WIDTH, HEIGHT));
+        this.setBackground(Color.DARK_GRAY);
+        this.setForeground(Color.WHITE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        getContentPane().setLayout(new BorderLayout());
+        this.setLayout(new BorderLayout());
 
-        getContentPane().add(menu, BorderLayout.NORTH);
-        getContentPane().add(gamePanel, BorderLayout.CENTER);
+        this.add(menu, BorderLayout.NORTH);
+        this.add(gamePanel, BorderLayout.CENTER);
 
-        pack();
+        gamePanel.setSize(gamePanel.calculateSize());
+        gamePanel.setPreferredSize(gamePanel.calculateSize());
+        gamePanel.setMinimumSize(gamePanel.calculateSize());
+
+
+        this.pack();
     }
 
     public static MainFrame getInstance() {
